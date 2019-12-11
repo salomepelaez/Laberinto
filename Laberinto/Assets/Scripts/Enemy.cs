@@ -4,20 +4,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float sightRange = 3f;
+    private float sightRange = 5f;
     private float timeOnSight = 3f;
 
     public Transform playerTr;
     private Transform enemyTr;
 
-    public GameObject warning = null;
-    public GameObject detect = null;
-
-    void Start()
-    {
-        warning.SetActive(false);
-        detect.SetActive(false);
-    }
+    public Color warningColor;
+    public Color seenColor;
 
     private void Awake()
     {
@@ -26,25 +20,38 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        PlayerHasBeenSeen(playerTr.position);
+        PlayerHasBeenSeen(playerTr.position);  
+        DetectPlayer();      
     }
 
-    private void DetectPlayer(bool playerHasBeenSeen)
+    private void DetectPlayer()
     {
-        if(playerHasBeenSeen)
+        bool playerDetected = PlayerHasBeenSeen(playerTr.position);
+
+        if(playerDetected)
         {
-            warning.SetActive(true);
-            detect.SetActive(false);
+            gameObject.GetComponent<Renderer>().material.color = warningColor;
 
             if(timeOnSight <= 3)
             {
-                timeOnSight += Time.deltaTime;
-            }
+                timeOnSight += Time.deltaTime;                
+            }     
 
             if(!(timeOnSight >= 3)) return;
-            warning.SetActive(false);
-            detect.SetActive(true);
+                gameObject.GetComponent<Renderer>().material.color = seenColor;
+            
         }
+
+        else 
+            {
+                if(timeOnSight > 0)
+                {
+                    timeOnSight -= Time.deltaTime;
+                }
+
+                if(!(timeOnSight <= 0)) return;
+                    gameObject.GetComponent<Renderer>().material.color = Color.cyan;
+            }
     }
 
     private bool PlayerHasBeenSeen(Vector3 playerPosition)
@@ -62,8 +69,10 @@ public class Enemy : MonoBehaviour
 
             if(Physics.Raycast(enemyTr.position, displacement.normalized, out var hit, sightRange, layerMask))
             {
-                Debug.DrawRay(enemyTr.position, displacement.normalized * hit.distance, Color.red);
-                Debug.Log("tas muerto");
+                if(hit.collider.GetComponent<Player>())
+                {
+                    Debug.DrawRay(enemyTr.position, displacement.normalized * hit.distance, Color.red);
+                }
 
                 if(!hit.collider.GetComponent<Player>()) return false;
 

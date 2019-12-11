@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.SceneManagement;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class Enemy : MonoBehaviour
 
     public Color warningColor;
     public Color seenColor;
+
+    public TextMeshProUGUI warningText;
 
     private void Awake()
     {
@@ -31,6 +35,7 @@ public class Enemy : MonoBehaviour
         if(playerDetected)
         {
             gameObject.GetComponent<Renderer>().material.color = warningColor;
+            StartCoroutine(HideText());
 
             if(timeOnSight <= 3)
             {
@@ -38,7 +43,8 @@ public class Enemy : MonoBehaviour
             }     
 
             if(!(timeOnSight >= 3)) return;
-                gameObject.GetComponent<Renderer>().material.color = seenColor;
+            gameObject.GetComponent<Renderer>().material.color = seenColor;
+            EditorSceneManager.LoadScene("MainScene");
             
         }
 
@@ -81,5 +87,12 @@ public class Enemy : MonoBehaviour
             }
         }
         return false;
+    }
+
+    IEnumerator HideText()
+    {
+        warningText.text = "You should be hidden!";
+
+        yield return new WaitForSeconds(3f);
     }
 }

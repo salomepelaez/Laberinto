@@ -91,8 +91,10 @@ public class Enemy : MonoBehaviour
 
     IEnumerator HideText()
     {
-        warningText.text = "You should be hidden!";
+        warningText.text = "Te han visto, dáte prisa";
 
         yield return new WaitForSeconds(3f);
+
+        warningText.text = "";
     }
 }

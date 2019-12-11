@@ -8,7 +8,7 @@ public class PlayerAim : MonoBehaviour
     // Las variables del mouse se asignaron como flotantes pues también necesitan almacenar la parte decimal.
     float mouseX;
     float mouseY;
-    float sensitivity = 40.0f; // Se agregó una variable extra para la sensibilidad de la cámara.
+    float sensitivity = 30.0f; // Se agregó una variable extra para la sensibilidad de la cámara.
     float axisLimit = 0.0f; // También se agregó una variable para el límite de rotación de la cámara.
 
     // El siguiente bloque de código se encarga de generar la rotación de la cámara en los ejes X y Y. 

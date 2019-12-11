@@ -43,15 +43,15 @@ public class Enemy : MonoBehaviour
         }
 
         else 
+        {
+            if(timeOnSight > 0)
             {
-                if(timeOnSight > 0)
-                {
-                    timeOnSight -= Time.deltaTime;
-                }
-
-                if(!(timeOnSight <= 0)) return;
-                    gameObject.GetComponent<Renderer>().material.color = Color.cyan;
+                timeOnSight -= Time.deltaTime;
             }
+
+            if(!(timeOnSight <= 0)) return;
+                gameObject.GetComponent<Renderer>().material.color = Color.cyan;
+        }
     }
 
     private bool PlayerHasBeenSeen(Vector3 playerPosition)

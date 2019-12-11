@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed = 3f; // La velocidad se asignó como un flotante.
-     
-    void Update() 
+    public GameObject hA; // Se creó una variable pública de HeroAim, a la cual se le asigna la cámara.
+    float speed = 0.2f; // Se creó un flotante para la velocidad. Esta es reasignada desde la clase "Hero".
+
+    void Update()
+    {
+        Move(); // La función es llamada. 
+
+        float rotat = hA.transform.eulerAngles.y;
+        transform.rotation = Quaternion.Euler(0.0f, rotat, 0.0f);
+        
+    }
+
+    private void Move() // Se creó una función para el movimiento, que luego es llamada en el Update.
     {
         /* El siguiente bloque de código, es el encargado de obtener de obtener las teclas que el jugador presiona, 
         y transformar la ubicación dependiendo de la dirección que se le haya asignado*/
@@ -32,5 +42,4 @@ public class Player : MonoBehaviour
             utilizar un signo negativo para ir hacia la dirección contraria*/
         }
     }
-
 }
